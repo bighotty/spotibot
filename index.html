@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thank You for Using Spotibot</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .logo {
+            margin-top: 100px;
+        }
+
+        .message {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='Spotify_icon.png') }}" alt="Spotify Logo" width="200" height="200">
+    </div>
+    <div class="message">
+        <h1>Thank You for Using Spotibot</h1>
+    </div>
+    <script type="text/javascript">
+        setTimeout(function() {
+            window.opener.postMessage('success', '*');
+            window.close();
+        }, 3000); // Automatically close the window after 3 seconds
+    </script>
+</body>
+</html>
