@@ -18,19 +18,24 @@
             margin-top: 50px;
         }
     </style>
+    <script type="text/javascript">
+        var authenticationComplete = false;
+
+        window.addEventListener('message', function(event) {
+            if (event.data === 'success' && !authenticationComplete) {
+                authenticationComplete = true;
+                document.getElementById('message').textContent = 'Authentication successful! You can now close this window.';
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="logo">
         <img src="{{ url_for('static', filename='Spotify_icon.png') }}" alt="Spotify Logo" width="200" height="200">
     </div>
-    <div class="message">
+    <div class="message" id="message">
         <h1>Thank You for Using Spotibot</h1>
+        <p>Please wait while the authentication process is completed...</p>
     </div>
-    <script type="text/javascript">
-        setTimeout(function() {
-            window.opener.postMessage('success', '*');
-            window.close();
-        }, 3000); // Automatically close the window after 3 seconds
-    </script>
 </body>
 </html>
