@@ -38,15 +38,17 @@
         <p>Please wait while the authentication process is completed...</p>
     </div>
     <script type="text/javascript">
-        // Parse the authentication code from the URL parameters
-        var urlParams = new URLSearchParams(window.location.search);
-        var code = urlParams.get('code');
+    // Parse the authentication code from the URL parameters
+    var urlParams = new URLSearchParams(window.location.search);
+    var code = urlParams.get('code');
 
-        // Send the code back to the Discord bot via postMessage
+    // Send the code back to the Discord bot via postMessage if the opener is available
+    if (window.opener && code) {
         window.opener.postMessage(code, '*');
+    }
 
-        // Close the popup window
-        window.close();
-    </script>
+    // Close the popup window
+    window.close();
+</script>
 </body>
 </html>
