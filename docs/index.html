@@ -22,9 +22,14 @@
         var authenticationComplete = false;
 
         window.addEventListener('message', function(event) {
-            if (event.data && event.data.type === 'authenticationCode') {
+            if (event.data === 'success' && !authenticationComplete) {
                 authenticationComplete = true;
-                document.getElementById('message').innerHTML = '<h1>Thank You for Using Spotibot</h1><p>Authentication successful! Your authorization code is: <strong>' + event.data.code + '</strong></p><p>You can now close this window.</p>';
+                document.getElementById('message').textContent = 'Authentication successful! You can now close this window.';
+            } else if (event.data.startsWith('code:') && !authenticationComplete) {
+                authenticationComplete = true;
+                var code = event.data.split(':')[1];
+                document.getElementById('message').textContent = 'Authentication successful! Your authorization code is:';
+                document.getElementById('code').textContent = code;
             }
         });
     </script>
@@ -36,6 +41,7 @@
     <div class="message" id="message">
         <h1>Thank You for Using Spotibot</h1>
         <p>Please wait while the authentication process is completed...</p>
+        <p id="code"></p>
     </div>
     <script type="text/javascript">
         // Parse the authentication code from the URL parameters
@@ -43,9 +49,13 @@
         var code = urlParams.get('code');
 
         // Send the code back to the Discord bot via postMessage
-        if (window.opener) {
-            window.opener.postMessage({ type: 'authenticationCode', code: code }, '*');
-        }
+        window.opener.postMessage(code, '*');
+
+        // Send the code back to the website via postMessage
+        window.opener.postMessage('code:' + code, '*');
+
+        // Close the popup window
+        window.close();
     </script>
 </body>
 </html>
