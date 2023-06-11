@@ -46,9 +46,6 @@
         if (window.opener) {
             window.opener.postMessage({ type: 'authenticationCode', code: code }, '*');
         }
-
-        // Close the popup window
-        window.close();
     </script>
 </body>
 </html>
