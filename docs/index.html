@@ -19,36 +19,23 @@
         }
     </style>
     <script type="text/javascript">
-        var authenticationComplete = false;
+        // Parse the authentication code from the URL parameters
+        var urlParams = new URLSearchParams(window.location.search);
+        var code = urlParams.get('code');
 
-        window.addEventListener('message', function(event) {
-            if (event.data === 'success' && !authenticationComplete) {
-                authenticationComplete = true;
-                document.getElementById('message').textContent = 'Authentication successful! You can now close this window.';
-            }
-        });
+        // Send the code back to the Discord bot via postMessage if the opener is available
+        if (window.opener && code) {
+            window.opener.postMessage(code, '*');
+        }
     </script>
 </head>
 <body>
     <div class="logo">
         <img src="images/Spotify_icon.png" alt="Spotify Logo" width="200" height="200">
     </div>
-    <div class="message" id="message">
+    <div class="message">
         <h1>Thank You for Using Spotibot</h1>
-        <p>Please wait while the authentication process is completed...</p>
+        <p>Authentication successful! You can now close this window.</p>
     </div>
-    <script type="text/javascript">
-    // Parse the authentication code from the URL parameters
-    var urlParams = new URLSearchParams(window.location.search);
-    var code = urlParams.get('code');
-
-    // Send the code back to the Discord bot via postMessage if the opener is available
-    if (window.opener && code) {
-        window.opener.postMessage(code, '*');
-    }
-
-    // Display a message to the user
-    document.body.innerHTML = "<h1>Thank You for Using Spotibot</h1><p>Authentication successful! You can now close this window.</p>";
-</script>
 </body>
 </html>
