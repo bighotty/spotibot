@@ -18,21 +18,6 @@
             margin-top: 50px;
         }
     </style>
-    <script type="text/javascript">
-        var authenticationComplete = false;
-
-        window.addEventListener('message', function(event) {
-            if (event.data === 'success' && !authenticationComplete) {
-                authenticationComplete = true;
-                document.getElementById('message').textContent = 'Authentication successful! You can now close this window.';
-            } else if (event.data.startsWith('code:') && !authenticationComplete) {
-                authenticationComplete = true;
-                var code = event.data.split(':')[1];
-                document.getElementById('message').textContent = 'Authentication successful! Your authorization code is:';
-                document.getElementById('code').textContent = code;
-            }
-        });
-    </script>
 </head>
 <body>
     <div class="logo">
@@ -40,22 +25,17 @@
     </div>
     <div class="message" id="message">
         <h1>Thank You for Using Spotibot</h1>
-        <p>Please wait while the authentication process is completed...</p>
-        <p id="code"></p>
+        <p id="code-placeholder">Your authorization code will appear here.</p>
+        <p>Please close this window and provide the code to the Spotibot Discord bot.</p>
     </div>
     <script type="text/javascript">
-        // Parse the authentication code from the URL parameters
+        // Parse the authorization code from the URL
         var urlParams = new URLSearchParams(window.location.search);
         var code = urlParams.get('code');
 
-        // Send the code back to the Discord bot via postMessage
-        window.opener.postMessage(code, '*');
-
-        // Send the code back to the website via postMessage
-        window.opener.postMessage('code:' + code, '*');
-
-        // Close the popup window
-        window.close();
+        // Display the authorization code on the webpage
+        var codePlaceholder = document.getElementById('code-placeholder');
+        codePlaceholder.textContent = "Your authorization code is: " + code;
     </script>
 </body>
 </html>
